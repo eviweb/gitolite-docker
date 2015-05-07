@@ -1,0 +1,11 @@
+#! /bin/bash
+DIR=$(dirname $(readlink -f "$0"))
+SSH_KEYDIR=${DIR}/.user-keys
+
+if [ ! -e ${SSH_KEYDIR}/*.pub ]
+then
+    ssh-keygen -t rsa -C "${USER}@gitolite-docker" -N "" -f ${SSH_KEYDIR}/${USER}
+fi
+
+cd "${DIR}"
+docker build --tag="gitolite-docker" .
